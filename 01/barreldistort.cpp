@@ -70,35 +70,35 @@ float calc_shift(float x1,float x2,float cx,float k){
 
 int main(int argc, char** argv) {
 	IplImage* src = cvLoadImage( argv[1], 1 );
-	IplImage* dst = cvCreateImage(cvGetSize(src),src->depth,src->nChannels);
-	IplImage* dst2 = cvCreateImage(cvGetSize(src),src->depth,src->nChannels);
+	IplImage* dst = cvCreateImage(cvGetSize(src), src->depth, src->nChannels);
+	IplImage* dst2 = cvCreateImage(cvGetSize(src), src->depth, src->nChannels);
 	float K=atof(argv[3]);
-	float centerX=atoi(argv[4]);
-	float centerY=atoi(argv[5]);
 	int width = cvGetSize(src).width;
 	int height = cvGetSize(src).height;
+	float centerX = width/2;
+	float centerY = height/2;
 	
-	xshift = calc_shift(0,centerX-1,centerX,K);
-	float newcenterX = width-centerX;
-	float xshift_2 = calc_shift(0,newcenterX-1,newcenterX,K);
+	xshift = calc_shift(0, centerX-1, centerX, K);
+	float newcenterX = width - centerX;
+	float xshift_2 = calc_shift(0, newcenterX-1, newcenterX, K);
 	
-	yshift = calc_shift(0,centerY-1,centerY,K);
-	float newcenterY = height-centerY;
-	float yshift_2 = calc_shift(0,newcenterY-1,newcenterY,K);
-	xscale = (width-xshift-xshift_2)/width;
-	yscale = (height-yshift-yshift_2)/height;
+	yshift = calc_shift(0, centerY-1, centerY, K);
+	float newcenterY = height - centerY;
+	float yshift_2 = calc_shift(0, newcenterY-1, newcenterY, K);
+	xscale = (width - xshift - xshift_2) / width;
+	yscale = (height - yshift - yshift_2) / height;
 	
 	//std::cerr<<xshift<<" "<<yshift<<" "<<xscale<<" "<<yscale<<std::endl;
 	//std::cerr<<cvGetSize(src).height<<std::endl;
 	//std::cerr<<cvGetSize(src).width<<std::endl;
 	
-	for(int j=0;j<cvGetSize(dst).height;j++){
-		for(int i=0;i<cvGetSize(dst).width;i++){
+	for(int j = 0; j < cvGetSize(dst).height; j++) {
+		for(int i = 0; i < cvGetSize(dst).width; i++) {
 			CvScalar s;
-			float x = getRadialX((float)i,(float)j,centerX,centerY,K);
-			float y = getRadialY((float)i,(float)j,centerX,centerY,K);
-			sampleImage(src,y,x,s);
-			cvSet2D(dst,j,i,s);
+			float x = getRadialX((float) i, (float) j, centerX, centerY, K);
+			float y = getRadialY((float) i, (float) j, centerX, centerY, K);
+			sampleImage(src, y, x, s);
+			cvSet2D(dst, j, i, s);
 		}
 	}
 	
