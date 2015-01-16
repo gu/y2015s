@@ -85,13 +85,12 @@ int main(int argc, char** argv) {
 	yshift = calc_shift(0,centerY-1,centerY,K);
 	float newcenterY = height-centerY;
 	float yshift_2 = calc_shift(0,newcenterY-1,newcenterY,K);
-	//  scale = (centerX-xshift)/centerX;
 	xscale = (width-xshift-xshift_2)/width;
 	yscale = (height-yshift-yshift_2)/height;
 	
-	std::cerr<<xshift<<" "<<yshift<<" "<<xscale<<" "<<yscale<<std::endl;
-	std::cerr<<cvGetSize(src).height<<std::endl;
-	std::cerr<<cvGetSize(src).width<<std::endl;
+	//std::cerr<<xshift<<" "<<yshift<<" "<<xscale<<" "<<yscale<<std::endl;
+	//std::cerr<<cvGetSize(src).height<<std::endl;
+	//std::cerr<<cvGetSize(src).width<<std::endl;
 	
 	for(int j=0;j<cvGetSize(dst).height;j++){
 		for(int i=0;i<cvGetSize(dst).width;i++){
@@ -102,27 +101,6 @@ int main(int argc, char** argv) {
 			cvSet2D(dst,j,i,s);
 		}
 	}
-	#if 0
-	cvNamedWindow( "Source1", 1 );
-	cvShowImage( "Source1", dst);
-	cvWaitKey(0);
-	#endif
 	
 	cvSaveImage(argv[2],dst,0);
-	
-	#if 0
-	for(int j=0;j<cvGetSize(src).height;j++){
-		for(int i=0;i<cvGetSize(src).width;i++){
-			CvScalar s;
-			sampleImage(src,j+0.25,i+0.25,s);
-			cvSet2D(dst,j,i,s);
-		}
-	}
-	
-	cvNamedWindow( "Source1", 1 );
-	cvShowImage( "Source1", src);
-	cvWaitKey(0);
-	
-	#endif  
-
 }
